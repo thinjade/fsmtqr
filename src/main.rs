@@ -220,7 +220,7 @@ fn main() {
                         if choice.value() == 0 {
                             match Code128::new(format!("Ɓ{}", code)) {
                                 Ok(barcode) => {
-                                    let png = barcoders::generators::image::Image::png(800); // You must specify the height in pixels.
+                                    let png = barcoders::generators::image::Image::png(80); // You must specify the height in pixels.
                                     let encoded = barcode.encode();
 
                                     let bytes = png.generate(&encoded[..]).unwrap();
