@@ -1,0 +1,24 @@
+[package]
+name = "fsmtqr"
+version = "0.2.1"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+build = "build.rs"
+[dependencies]
+qrcode-generator ="*"
+encoding="*"
+fltk="*"
+barcoders={version = "*", features = ["image"]}
+base64="*"
+urlencoding="*"
+
+[target.'cfg(windows)'.build-dependencies]
+winres="*"
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
