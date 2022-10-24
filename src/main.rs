@@ -1,6 +1,7 @@
 #![windows_subsystem = "windows"]
 
 //use barcoders::generators::image::*;
+use barcoders;
 use barcoders::sym::code128::*;
 use encoding::all::GB18030;
 use encoding::{EncoderTrap, Encoding};
@@ -33,15 +34,16 @@ fn main() {
         fltk::enums::Shortcut::None,
         fltk::menu::MenuFlag::Normal,
         move |_| {
-			/***
-			fltk::dialog::message_title("关于");
-			fltk::dialog::message(w_x + 50, w_y + 50,format!(
+            /***
+            fltk::dialog::message_title("关于");
+            fltk::dialog::message(w_x + 50, w_y + 50,format!(
                     "FS&MT二维码生成工具 {}\n\n二维码保存在{}文件夹\n\nCopyright@@ThinJade",
                     version, img_path
                 ).as_str());
-				***/
-            let mut help_dlg = fltk::window::Window::new(w_x + 50, w_y + 50, 300, 150, "关于").center_screen();
-            let mut help_f = frame::Frame::default().with_size(300,75);
+                ***/
+            let mut help_dlg =
+                fltk::window::Window::new(w_x + 50, w_y + 50, 300, 150, "关于").center_screen();
+            let mut help_f = frame::Frame::default().with_size(300, 75);
             help_f.set_label(
                 format!(
                     "\nFS&MT二维码生成工具 {}\n\n二维码保存在{}文件夹\n\nCopyright@@ThinJade",
@@ -49,24 +51,24 @@ fn main() {
                 )
                 .as_str(),
             );
-			let mut ok_but = button::Button::new(120, 105, 50, 28, "确定");
+            let mut ok_but = button::Button::new(120, 105, 50, 28, "确定");
             help_dlg.end();
-			help_dlg.make_modal(true);
+            help_dlg.make_modal(true);
             help_dlg.show();
-			ok_but.set_callback(move |_|{
-				help_dlg.hide();
-			});
+            ok_but.set_callback(move |_| {
+                help_dlg.hide();
+            });
 
-			/***
-			let mut help = fltk::dialog::HelpDialog::new(w_x + 50, w_y + 50, 300, 150);
-			let h_t=format!(
-                    "FS&MT二维码生成工具 {}\n\n二维码保存在{}文件夹\n\nCopyright@@ThinJade",
-                    version, img_path);
-        help.set_value(&h_t); // this takes html
-        help.show();
-        while help.shown() {
-            app::wait();
-        }***/
+            /***
+                let mut help = fltk::dialog::HelpDialog::new(w_x + 50, w_y + 50, 300, 150);
+                let h_t=format!(
+                        "FS&MT二维码生成工具 {}\n\n二维码保存在{}文件夹\n\nCopyright@@ThinJade",
+                        version, img_path);
+            help.set_value(&h_t); // this takes html
+            help.show();
+            while help.shown() {
+                app::wait();
+            }***/
         },
     );
 
@@ -220,7 +222,18 @@ fn main() {
                         if choice.value() == 0 {
                             match Code128::new(format!("Ɓ{}", code)) {
                                 Ok(barcode) => {
-                                    let png = barcoders::generators::image::Image::png(80); // You must specify the height in pixels.
+                                    //let png = barcoders::generators::image::Image::png(80); // You must specify the height in pixels.
+                                    let png = barcoders::generators::image::Image::PNG {
+                                        height: 400,
+                                        xdim: 3,
+                                        rotation: barcoders::generators::image::Rotation::Zero,
+                                        foreground: barcoders::generators::image::Color::new([
+                                            0, 0, 0, 255,
+                                        ]),
+                                        background: barcoders::generators::image::Color::new([
+                                            255, 255, 255, 255,
+                                        ]),
+                                    };
                                     let encoded = barcode.encode();
 
                                     let bytes = png.generate(&encoded[..]).unwrap();
