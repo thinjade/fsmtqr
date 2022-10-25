@@ -213,7 +213,6 @@ fn main() {
                     }
 
                     let mut code = input_code.value().to_string();
-
                     code = code.trim().to_string();
                     let len = code.len();
                     if len == 0 {
@@ -538,7 +537,6 @@ fn main() {
                                 Ok(mut nimage) => {
                                     nimage.scale(550, 400, true, true);
                                     iframe.set_label_color(fltk::enums::Color::Red);
-
                                     iframe.set_image(Some(nimage));
                                     iframe.set_label(
                                         format!("{}\n二维码大图已保存到{}文件夹", code, img_path)
@@ -549,11 +547,10 @@ fn main() {
                             }
                         } else {
                         }
-
                         app.redraw();
                     }
                 }
-                _ => println!("hehe {}", r),
+                _ => { /*println!("hehe {}", r)*/ }
             }
         }
     }
